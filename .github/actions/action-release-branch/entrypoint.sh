@@ -32,7 +32,7 @@ git add .
 git stash
 
 # Get latest release branch.
-git switch "${RELEASE_BRANCH}"
+git checkout "${RELEASE_BRANCH}"
 git pull origin "${RELEASE_BRANCH}"
 
 # Commit changed files to release branch.
