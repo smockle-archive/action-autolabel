@@ -1,0 +1,16 @@
+name: "action-release-branch"
+author: "smockle"
+description: "Removes source files, then pushes a commit to the release branch."
+inputs:
+  release_branch:
+    description: "Release branch name. Defaults to `"dist"`."
+    required: false
+    default: "dist"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.release_branch }}
+branding:
+  icon: "package"
+  color: "green"
