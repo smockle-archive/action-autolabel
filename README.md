@@ -10,7 +10,7 @@ Label issues based on matched strings.
 
 ## Environment Variables
 
-### `PAT_TOKEN`
+### `GH_TOKEN`
 
 **Required** A [GitHub token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo` and `org:write` scopes.
 
@@ -41,5 +41,5 @@ jobs:
             - text: "4.1.2"
               label: "WCAG 4.1.2"
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
