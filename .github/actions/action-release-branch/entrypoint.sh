@@ -32,7 +32,8 @@ git add .
 git stash
 
 # Get latest release branch.
-git checkout "${RELEASE_BRANCH}"
+git fetch -a
+git checkout -b "${RELEASE_BRANCH}" --track "origin/${RELEASE_BRANCH}"
 git pull origin "${RELEASE_BRANCH}"
 
 # Commit changed files to release branch.
