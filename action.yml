@@ -1,0 +1,13 @@
+name: "action-autolabel"
+author: "smockle"
+description: "Label issues based on matched strings."
+inputs:
+  search_objects:
+    description: "A list of objects indicating the 'text' to search for and the issue 'label' to apply when a match is found."
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
+branding:
+  icon: "bookmark"
+  color: "blue"
