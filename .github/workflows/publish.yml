@@ -18,7 +18,7 @@ jobs:
       - run: npm test
       - run: npm run package
       - uses: "./.github/actions/action-release-branch"
-        inputs:
+        with:
           release_branch: "dist"
         env:
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
