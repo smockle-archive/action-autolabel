@@ -39,5 +39,5 @@ git pull origin "${RELEASE_BRANCH}"
 
 # Commit changed files to release branch.
 git stash pop
-git commit -am "chore: package action-autolabel [skip ci]"
+git commit -am "chore: publish release branch [skip ci]"
 git push origin HEAD:"refs/heads/${RELEASE_BRANCH}"
