@@ -26,7 +26,7 @@ echo ".github" >> .gitignore
 echo "src" >> .gitignore
 
 # Remove ignored files.
-git clean -Xdf
+git rm -r --cached .
 
 # Stash changed files.
 git add .
