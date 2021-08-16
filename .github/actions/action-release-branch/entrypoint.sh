@@ -20,7 +20,7 @@ echo "https://${GH_TOKEN}:@github.com" > .git/credentials
 
 # Update indexed files.
 # Include 'dist' and exclude '.github' and 'src'.
-sed -i .bak 's/^dist$//' .gitignore && rm -f .gitignore.bak
+sed -i '.bak' 's/^dist$//' .gitignore && rm -f .gitignore.bak
 echo ".github" >> .gitignore
 echo "src" >> .gitignore
 
