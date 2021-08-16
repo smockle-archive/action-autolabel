@@ -3,7 +3,7 @@ author: "smockle"
 description: "Removes source files, then pushes a commit to the release branch."
 inputs:
   release_branch:
-    description: "Release branch name. Defaults to `"dist"`."
+    description: "Release branch name. Defaults to 'dist'."
     required: false
     default: "dist"
 runs:
