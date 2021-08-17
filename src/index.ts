@@ -50,10 +50,10 @@ import { Issue } from "./lib/issue";
     })();
 
     // Determine which labels to apply
-    const labels: { name: string }[] = [];
-    for (const { text, label: name } of searchObjects) {
+    const labels: string[] = [];
+    for (const { text, label } of searchObjects) {
       if (issue.includes(text)) {
-        labels.push({ name });
+        labels.push(label);
         if (limitMatches) {
           break;
         }
@@ -62,7 +62,7 @@ import { Issue } from "./lib/issue";
 
     // Add labels to issue
     core.debug(`Adding labels: ${JSON.stringify(labels)}`);
-    octokit.rest.issues.addLabels({
+    await octokit.rest.issues.addLabels({
       owner: "smockle",
       repo: "action-autolabel",
       issue_number: 1,
