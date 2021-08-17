@@ -36,9 +36,9 @@ import { Issue } from "./lib/issue";
         })();
         // Determine which labels to apply
         const labels = [];
-        for (const { text, label } of searchObjects) {
+        for (const { text, label: name } of searchObjects) {
             if (issue.includes(text)) {
-                labels.push(label);
+                labels.push({ name });
                 if (limitMatches) {
                     break;
                 }
@@ -46,6 +46,12 @@ import { Issue } from "./lib/issue";
         }
         // Add labels to issue
         core.debug(`Adding labels: ${JSON.stringify(labels)}`);
+        octokit.rest.issues.addLabels({
+            owner: "smockle",
+            repo: "action-autolabel",
+            issue_number: 1,
+            labels,
+        });
     }
     catch (error) {
         core.setFailed(error.message);
