@@ -7,11 +7,14 @@ rm -Rf dist
 # Build project.
 tsc
 
-# Update indexed files.
-sed -i"" 's/^dist$//' .gitignore
-sed -i"" 's/^node_modules$//' .gitignore
-echo "" >> .gitignore
-tee -a .gitignore << EOF
+# Include the 'dist' and 'node_modules' directories.
+sed -i.bak -e '/^dist$/d' -e '/^node_modules$/d' .gitignore && rm -f .gitignore.bak
+
+# Exclude the '.github' and 'src' directories.
+tee -a .gitignore >/dev/null << EOF
 .github
 src
 EOF
+
+# Prettify '.gitignore' formatting
+sed -i.bak -e '/^$/d' .gitignore && rm -f .gitignore.bak
