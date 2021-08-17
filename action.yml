@@ -6,9 +6,9 @@ inputs:
     description: "A JSON-stringified list of objects indicating the 'text' to search for and the issue 'label' to apply when a match is found."
     required: true
   limit_matches:
-    description: "If truthy, searching will stop when a match is found (so one label will be applied at most). If falsey, every search object will be checked (so many labels may be applied)."
+    description: "If 'true', searching will stop when a match is found (so one label will be applied at most). If 'false', every search object will be checked (so many labels may be applied)."
     required: false
-    default: ""
+    default: false
 runs:
   using: "docker"
   image: "Dockerfile"

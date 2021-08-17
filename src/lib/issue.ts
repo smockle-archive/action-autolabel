@@ -1,7 +1,7 @@
 #!/usr/bin/env node --es-module-specifier-resolution=node
 
 import type { RestEndpointMethodTypes } from "@octokit/rest";
-type IssueResponse =
+export type IssueResponse =
   RestEndpointMethodTypes["issues"]["get"]["response"]["data"];
 
 export class Issue {

@@ -1,7 +1,4 @@
-import type { RestEndpointMethodTypes } from "@octokit/rest";
-type IssueResponse =
-  RestEndpointMethodTypes["issues"]["get"]["response"]["data"];
-
+import type { IssueResponse } from "../lib/issue";
 import { Issue } from "../lib/issue";
 import fs from "fs";
 import url from "url";
