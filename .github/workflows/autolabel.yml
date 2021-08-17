@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: smockle/action-autolabel@dist
         with:
-          search_objects: '[{ text: "4.1.1", label: "WCAG 4.1.1" }, { text: "4.1.2", label: "4.1.2" }]'
+          search_objects: '[{ "text": "4.1.1", "label": "WCAG 4.1.1" }, { "text": "4.1.2", "label": "4.1.2" }]'
           limit_matches: false
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

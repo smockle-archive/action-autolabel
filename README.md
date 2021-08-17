@@ -6,7 +6,7 @@ Label issues based on matched strings.
 
 ### `search_objects`
 
-**Required** A JSON-stringified list of objects indicating the `text` to search for and the issue `label` to apply when a match is found. For example, `search_objects: [{ text: "4.1.1", label: "WCAG 4.1.1" }]`.
+**Required** A JSON-stringified list of objects indicating the `text` to search for and the issue `label` to apply when a match is found. For example, `search_objects: '[{ "text": "4.1.1", "label": "WCAG 4.1.1" }]'`.
 
 ### `limit_matches`
 
