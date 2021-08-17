@@ -11,5 +11,5 @@ LABEL com.github.actions.description="Label issues based on matched strings."
 LABEL com.github.actions.icon="bookmark"
 LABEL com.github.actions.color="blue"
 
-COPY dist/index.js /index.js
-ENTRYPOINT ["node", "--experimental-specifier-resolution=node", "/index.js"]
+COPY . /action-autolabel
+ENTRYPOINT ["node", "--experimental-specifier-resolution=node", "/action-autolabel/dist/index.js"]
