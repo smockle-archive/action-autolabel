@@ -37,7 +37,7 @@ jobs:
     name: WCAG Labeler
     runs-on: ubuntu-latest
     steps:
-      - uses: smockle/action-autolabel@main
+      - uses: smockle/action-autolabel@dist
         with:
           search_objects: '[{ text: "4.1.1", label: "WCAG 4.1.1" }, { text: "4.1.2", label: "4.1.2" }]'
           limit_matches: false
