@@ -1,0 +1,17 @@
+name: "action-autolabel"
+author: "smockle"
+description: "Label issues based on matched strings."
+inputs:
+  search_objects:
+    description: "A JSON-stringified list of objects indicating the 'text' to search for and the issue 'label' to apply when a match is found."
+    required: true
+  limit_matches:
+    description: "If 'true', searching will stop when a match is found (so one label will be applied at most). If 'false', every search object will be checked (so many labels may be applied)."
+    required: false
+    default: false
+runs:
+  using: "docker"
+  image: "Dockerfile"
+branding:
+  icon: "bookmark"
+  color: "blue"
