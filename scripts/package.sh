@@ -10,9 +10,10 @@ tsc
 # Include the 'dist' and 'node_modules' directories.
 sed -i.bak -e '/^dist$/d' -e '/^node_modules$/d' .gitignore && rm -f .gitignore.bak
 
-# Exclude the '.github' and 'src' directories.
+# Exclude the '.github', 'scripts', and 'src' directories.
 tee -a .gitignore >/dev/null << EOF
 .github
+scripts
 src
 EOF
 
