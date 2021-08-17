@@ -11,12 +11,12 @@ import { Issue } from "./lib/issue";
         }
         const octokit = github.getOctokit(token);
         // Retrieve issue data
-        const response = (await octokit.rest.issues.get({
+        const issue = new Issue(octokit, {
             owner: "smockle",
             repo: "action-autolabel",
-            issue_number: 1,
-        })).data;
-        const issue = new Issue(response);
+            issueNumber: 1,
+        });
+        await issue.fetch();
         // Retrieve inputs
         const searchObjects = (() => {
             try {
@@ -46,12 +46,7 @@ import { Issue } from "./lib/issue";
         }
         // Add labels to issue
         core.debug(`Adding labels: ${JSON.stringify(labels)}`);
-        await octokit.rest.issues.addLabels({
-            owner: "smockle",
-            repo: "action-autolabel",
-            issue_number: 1,
-            labels,
-        });
+        await issue.addLabels(labels);
     }
     catch (error) {
         core.setFailed(error.message);
