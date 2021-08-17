@@ -17,7 +17,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run package
-      - uses: "./.github/actions/action-release-branch"
+      - uses: smockle/action-release-branch
         with:
           release_branch: "dist"
         env:
