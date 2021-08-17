@@ -2,8 +2,6 @@
 
 import core from "@actions/core";
 import github from "@actions/github";
-
-import type { IssueResponse } from "./lib/issue";
 import { Issue } from "./lib/issue";
 
 (async () => {
@@ -18,14 +16,12 @@ import { Issue } from "./lib/issue";
     const octokit = github.getOctokit(token);
 
     // Retrieve issue data
-    const response: IssueResponse = (
-      await octokit.rest.issues.get({
-        owner: "smockle",
-        repo: "action-autolabel",
-        issue_number: 1,
-      })
-    ).data;
-    const issue = new Issue(response);
+    const issue = new Issue(octokit, {
+      owner: "smockle",
+      repo: "action-autolabel",
+      issueNumber: 1,
+    });
+    await issue.fetch();
 
     // Retrieve inputs
     const searchObjects: { text: string; label: string }[] = (() => {
@@ -62,12 +58,7 @@ import { Issue } from "./lib/issue";
 
     // Add labels to issue
     core.debug(`Adding labels: ${JSON.stringify(labels)}`);
-    await octokit.rest.issues.addLabels({
-      owner: "smockle",
-      repo: "action-autolabel",
-      issue_number: 1,
-      labels,
-    });
+    await issue.addLabels(labels);
   } catch (error) {
     core.setFailed(error.message);
   }

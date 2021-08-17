@@ -1,21 +1,58 @@
 #!/usr/bin/env node --es-module-specifier-resolution=node
 
+import type { getOctokit } from "@actions/github";
 import type { RestEndpointMethodTypes } from "@octokit/rest";
-export type IssueResponse =
-  RestEndpointMethodTypes["issues"]["get"]["response"]["data"];
+
+export type Client = ReturnType<typeof getOctokit>;
 
 export class Issue {
-  #response: IssueResponse;
+  #client: Client;
+  #data:
+    | RestEndpointMethodTypes["issues"]["get"]["response"]["data"]
+    | undefined;
 
-  constructor(response: IssueResponse) {
-    this.#response = response;
+  owner: string;
+  repo: string;
+  issueNumber: number;
+
+  constructor(
+    client: Client,
+    {
+      owner,
+      repo,
+      issueNumber,
+    }: { owner: string; repo: string; issueNumber: number }
+  ) {
+    this.#client = client;
+    this.owner = owner;
+    this.repo = repo;
+    this.issueNumber = issueNumber;
   }
 
-  get body() {
-    return this.#response.body;
+  get body(): string | null | undefined {
+    return this.#data?.body;
   }
 
   includes(text: string): boolean {
     return (this.body ?? "").includes(text);
+  }
+
+  async fetch(): Promise<void> {
+    this.#data = (
+      await this.#client.rest.issues.get({
+        owner: this.owner,
+        repo: this.repo,
+        issue_number: this.issueNumber,
+      })
+    )?.data;
+  }
+
+  async addLabels(labels: string[]): Promise<void> {
+    await this.#client.rest.issues.addLabels({
+      owner: this.owner,
+      repo: this.repo,
+      issue_number: this.issueNumber,
+      labels,
+    });
   }
 }
