@@ -8,6 +8,10 @@ Label issues based on matched strings.
 
 **Required** A list of objects indicating the `text` to search for and the issue `label` to apply when a match is found. For example, `search_objects: [{ text: "4.1.1", label: "WCAG 4.1.1" }]`.
 
+### `limit_matches`
+
+**Optional** If truthy, searching will stop when a match is found (so one label will be applied at most). If falsey, every search object will be checked (so many labels may be applied). Default: `""` (which evaluates to `false`).
+
 ## Environment Variables
 
 ### `GH_TOKEN`
@@ -40,6 +44,7 @@ jobs:
               label: "WCAG 4.1.1"
             - text: "4.1.2"
               label: "WCAG 4.1.2"
+          limit_matches: ""
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
