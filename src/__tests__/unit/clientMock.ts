@@ -1,4 +1,4 @@
-import type { Client } from "../lib/issue";
+import type { Client } from "../../lib/issue";
 import type { RestEndpointMethodTypes } from "@octokit/rest";
 
 import fs from "fs";
@@ -38,6 +38,20 @@ addLabelsToIssueMock.defaults = undefined as any;
 addLabelsToIssueMock.endpoint = undefined as any;
 addLabelsToIssueMock.called = 0;
 
+// DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels/{name}
+
+type RemoveLabelFromIssueResponse =
+  RestEndpointMethodTypes["issues"]["removeLabel"]["response"];
+
+export async function removeLabelFromIssueMock(): Promise<RemoveLabelFromIssueResponse> {
+  // Track the number of times 'removeLabelFromIssueMock' has been called.
+  removeLabelFromIssueMock.called++;
+  return Promise.resolve({} as RemoveLabelFromIssueResponse);
+}
+removeLabelFromIssueMock.defaults = undefined as any;
+removeLabelFromIssueMock.endpoint = undefined as any;
+removeLabelFromIssueMock.called = 0;
+
 // Client
 
 export const clientMock = {
@@ -45,6 +59,7 @@ export const clientMock = {
     issues: {
       get: getIssueMock,
       addLabels: addLabelsToIssueMock,
+      removeLabel: removeLabelFromIssueMock,
     },
   },
 } as Client & {
@@ -52,6 +67,7 @@ export const clientMock = {
     issues: {
       get: { called: number };
       addLabels: { called: number };
+      removeLabel: { called: number };
     };
   };
 };

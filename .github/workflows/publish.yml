@@ -15,7 +15,10 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: npm i -g npm@7 --registry=https://registry.npmjs.org && npm --version
       - run: npm ci
-      - run: npm test
+      - run: npm test:unit
+      - run: npm test:integration
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - run: npm run package
       - uses: smockle/action-release-branch@main
         with:

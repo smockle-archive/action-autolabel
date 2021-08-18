@@ -44,3 +44,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
+
+## Testing
+
+`smockle/action-autolabel` includes unit and integration tests. After cloning the `smockle/action-autolabel` repo locally, run `npm install` in the project folder to install dependencies. Run `npm test:unit` to execute unit tests, or run `npm test:integration` to execute integration tests. A GitHub token with `repo` and `org:write` scopes is required to be present in the environment as `GH_TOKEN` to run integration tests.
+
+## Publishing
+
+After every commit to [`main`](https://github.com/smockle/action-autolabel/tree/main), the [“Publish” workflow](https://github.com/smockle/action-autolabel/blob/main/.github/workflows/publish.yml) uses [smockle/action-release-branch](https://github.com/smockle/action-release-branch) to build and deploy to the [`dist` branch](https://github.com/smockle/action-autolabel/tree/dist) (which, as noted in [Example usage](#example-usage) above, is the branch users should specify in their workflows: `uses: smockle/action-autolabel@dist`).

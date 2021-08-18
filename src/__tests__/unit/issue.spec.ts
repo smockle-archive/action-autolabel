@@ -1,4 +1,4 @@
-import { Issue } from "../lib/issue";
+import { Issue } from "../../lib/issue";
 import { clientMock } from "./clientMock";
 
 describe("Issue", () => {
@@ -21,23 +21,37 @@ describe("Issue", () => {
     );
   });
 
-  test(".includes, match found", () => {
-    expect(issue.includes("4.1.1")).toEqual(true);
+  test(".mentions, match found", () => {
+    expect(issue.mentions("4.1.1")).toEqual(true);
   });
 
-  test(".includes, no match found", () => {
-    expect(issue.includes("0.0.0")).toEqual(false);
+  test(".mentions, no match found", () => {
+    expect(issue.mentions("0.0.0")).toEqual(false);
   });
 
-  test(".includes, missing body", async () => {
+  test(".mentions, missing body", async () => {
     const { owner, repo, issueNumber } = issue;
     const unfetchedIssue = new Issue(clientMock, { owner, repo, issueNumber });
-    expect(unfetchedIssue.includes("4.1.1")).toEqual(false);
+    expect(unfetchedIssue.mentions("4.1.1")).toEqual(false);
+  });
+
+  test(".hasLabel, label found", () => {
+    expect(issue.hasLabel("accessibility")).toEqual(true);
+  });
+
+  test(".hasLabel, no label found", () => {
+    expect(issue.hasLabel("A LABEL THAT DOES NOT EXIST")).toEqual(false);
   });
 
   test(".addLabels()", () => {
     expect(clientMock.rest.issues.addLabels.called).toEqual(0);
     issue.addLabels(["WCAG 4.1.1"]);
     expect(clientMock.rest.issues.addLabels.called).toEqual(1);
+  });
+
+  test(".removeLabel()", () => {
+    expect(clientMock.rest.issues.removeLabel.called).toEqual(0);
+    issue.removeLabel("WCAG 4.1.1");
+    expect(clientMock.rest.issues.removeLabel.called).toEqual(1);
   });
 });
