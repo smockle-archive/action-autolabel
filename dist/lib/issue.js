@@ -14,8 +14,11 @@ export class Issue {
     get body() {
         return this.#data?.body;
     }
-    includes(text) {
+    mentions(text) {
         return (this.body ?? "").includes(text);
+    }
+    hasLabel(label) {
+        return Boolean(this.#data?.labels.some((x) => x === label || (typeof x !== "string" && x.name === label)));
     }
     async fetch() {
         this.#data = (await this.#client.rest.issues.get({
@@ -30,6 +33,14 @@ export class Issue {
             repo: this.repo,
             issue_number: this.issueNumber,
             labels,
+        });
+    }
+    async removeLabel(label) {
+        await this.#client.rest.issues.removeLabel({
+            owner: this.owner,
+            repo: this.repo,
+            issue_number: this.issueNumber,
+            name: label,
         });
     }
 }
