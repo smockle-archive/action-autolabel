@@ -18,7 +18,7 @@ Label issues based on matched strings.
 
 #### `GH_TOKEN`
 
-**Required** A [GitHub token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo` and `org:write` scopes.
+**Required** A [GitHub token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with the `public_repo` (for use in public repos) or `repo` (for use in private repos) scope.
 
 ### Example workflow
 
@@ -51,7 +51,7 @@ jobs:
 
 ### Testing
 
-`smockle/action-autolabel` includes unit and integration tests. After cloning the `smockle/action-autolabel` repo locally, run `npm install` in the project folder to install dependencies. Run `npm run test:unit` to execute unit tests, or run `npm run test:integration` to execute integration tests. A GitHub token with `repo` and `org:write` scopes is required to be present in the environment as `GH_TOKEN` to run integration tests.
+`smockle/action-autolabel` includes unit and integration tests. After cloning the `smockle/action-autolabel` repo locally, run `npm install` in the project folder to install dependencies. Run `npm run test:unit` to execute unit tests, or run `npm run test:integration` to execute integration tests. A GitHub token with the `public_repo` (for use in public repos) or `repo` (for use in private repos) scope is required to be present in the environment as `GH_TOKEN` to run integration tests.
 
 ### Publishing
 
