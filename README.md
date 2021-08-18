@@ -51,7 +51,7 @@ jobs:
 
 ### Testing
 
-`smockle/action-autolabel` includes unit and integration tests. After cloning the `smockle/action-autolabel` repo locally, run `npm install` in the project folder to install dependencies. Run `npm test:unit` to execute unit tests, or run `npm test:integration` to execute integration tests. A GitHub token with `repo` and `org:write` scopes is required to be present in the environment as `GH_TOKEN` to run integration tests.
+`smockle/action-autolabel` includes unit and integration tests. After cloning the `smockle/action-autolabel` repo locally, run `npm install` in the project folder to install dependencies. Run `npm run test:unit` to execute unit tests, or run `npm run test:integration` to execute integration tests. A GitHub token with `repo` and `org:write` scopes is required to be present in the environment as `GH_TOKEN` to run integration tests.
 
 ### Publishing
 
