@@ -29,12 +29,12 @@ describe("Autolabel", () => {
         { text: "4.1.1", label: "WCAG 4.1.1" },
         { text: "4.1", label: "WCAG 4.1" },
     ];
-    /** A [GitHub token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo` and `org:write` scopes. */
+    /** A [GitHub token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with the `public_repo` (for use in public repos) or `repo` (for use in private repos) scope. */
     let token;
     let issue;
     beforeEach(async () => {
         if (!process.env.GH_TOKEN) {
-            throw new Error("Failed to retrieve a GitHub token. A GitHub token with `repo` and `org:write` scopes is required to be present in the environment as `GH_TOKEN` to run integration tests.");
+            throw new Error("Failed to retrieve a GitHub token. A GitHub token with the `public_repo` (for use in public repos) or `repo` (for use in private repos) scope is required to be present in the environment as `GH_TOKEN` to run integration tests.");
         }
         token = process.env.GH_TOKEN;
         const client = github.getOctokit(token);
