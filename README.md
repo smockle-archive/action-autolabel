@@ -14,6 +14,14 @@ Label issues based on matched strings.
 
 **Optional** If `true`, searching will stop when a match is found (so one label will be applied at most). If `false`, every search object will be checked (so many labels may be applied). Default: `false`.
 
+#### `owner`
+
+**Optional** The owner of the repo containing the issue to autolabel. This is a GitHub username if the repo is user-owned, or a GitHub org name if the repo is org-owned. For example, `owner: smockle`. By default, `owner` is the owner of the repo containing the workflow running `smockle/action-autolabel`.
+
+#### `repo`
+
+**Optional** The name of the repo containing the issue to autolabel. For example, `repo: action-autolabel`. By default, `repo` is the repo containing the workflow running `smockle/action-autolabel`.
+
 ### Environment Variables
 
 #### `GH_TOKEN`
@@ -43,6 +51,8 @@ jobs:
         with:
           search_objects: '[{ text: "4.1.1", label: "WCAG 4.1.1" }, { text: "4.1.2", label: "4.1.2" }]'
           limit_matches: false
+          owner: smockle
+          repo: action-autolabel
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```

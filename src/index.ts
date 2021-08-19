@@ -1,11 +1,13 @@
 #!/usr/bin/env node --es-module-specifier-resolution=node
 
 import core from "@actions/core";
+import github from "@actions/github";
 import { autolabel } from "./lib/autolabel";
 
 (async () => {
   try {
-    // Retrieve token
+    // Retrieve GitHub token from environment.
+    /** A [GitHub token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with the `public_repo` (for use in public repos) or `repo` (for use in private repos) scope. */
     const token = process.env.GH_TOKEN;
     if (!token) {
       throw new Error(
@@ -13,7 +15,8 @@ import { autolabel } from "./lib/autolabel";
       );
     }
 
-    // Retrieve inputs
+    // Retrieve 'search_objects' from 'inputs'.
+    /** A list of objects indicating the `text` to search for and the issue `label` to apply when a match is found. For example, `[{ text: "4.1.1", label: "WCAG 4.1.1" }]`. */
     let searchObjects: { text: string; label: string }[];
     try {
       searchObjects = JSON.parse(
@@ -24,6 +27,9 @@ import { autolabel } from "./lib/autolabel";
         `Failed to retrieve input 'search_objects' with error: ${error.message}. Is the input a valid JSON string?`
       );
     }
+
+    // Retrieve 'limit_matches' from 'inputs'.
+    /** If `true`, searching will stop when a match is found (so one label will be applied at most). If `false`, every search object will be checked (so many labels may be applied). Default: `false`. */
     let limitMatches: boolean;
     try {
       limitMatches = Boolean(core.getBooleanInput("limit_matches"));
@@ -33,11 +39,33 @@ import { autolabel } from "./lib/autolabel";
       );
     }
 
+    // Retrieve 'owner' and 'repo' from 'inputs' or from the `github` context.
+    // Ref: https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
+    const repoContext: { owner: string; repo: string } | undefined =
+      github.context.payload.repository?.match(
+        /^(?<owner>.*)\/(?<repo>.*)$/
+      ).groups;
+    /** The owner of the repo containing the issue to autolabel. This is a GitHub username if the repo is user-owned, or a GitHub org name if the repo is org-owned. */
+    let owner: string | undefined =
+      core.getInput("owner") || repoContext?.owner;
+    if (!owner) {
+      throw new Error(
+        `Failed to retrieve 'owner' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`
+      );
+    }
+    /** The name of the repo containing the issue to autolabel. */
+    let repo: string | undefined = core.getInput("repo") || repoContext?.repo;
+    if (!repo) {
+      throw new Error(
+        `Failed to retrieve 'repo' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`
+      );
+    }
+
     // Autolabel specified issue
     autolabel({
       token,
-      owner: "smockle",
-      repo: "action-autolabel",
+      owner,
+      repo,
       issueNumber: 1,
       searchObjects,
       limitMatches,

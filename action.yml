@@ -9,6 +9,12 @@ inputs:
     description: "If 'true', searching will stop when a match is found (so one label will be applied at most). If 'false', every search object will be checked (so many labels may be applied)."
     required: false
     default: false
+  owner:
+    description: "The owner of the repo containing the issue to autolabel. This is a GitHub username if the repo is user-owned, or a GitHub org name if the repo is org-owned."
+    required: false
+  repo:
+    description: "The name of the repo containing the issue to autolabel."
+    required: false
 runs:
   using: "docker"
   image: "Dockerfile"
