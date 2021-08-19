@@ -24,7 +24,7 @@ Label issues based on matched strings.
 
 #### `issue_numbers`
 
-**Required** A space-delimited list of issue numbers indicating the issues to autolabel. For example, `issue_numbers: "1 2 3"`. By default, `issue_numbers` is not defined in most cases (and the action will fail when it is not provided as an input). An exception is when [`issues.opened`](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#issues) triggers the workflow; in this case, `issues_numbers` defaults to the newly-opened issue’s number.
+**Required** A space-delimited list of issue numbers indicating the issues to autolabel. For example, `issue_numbers: "1 2 3"`. When [`issues.opened`](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#issues) triggers the workflow, `issues_numbers` defaults to the newly-opened issue’s number, so `issue_numbers` is optional. In all other cases, `issue_numbers` is required.
 
 ### Environment Variables
 
