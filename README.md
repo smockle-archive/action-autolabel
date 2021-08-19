@@ -22,6 +22,10 @@ Label issues based on matched strings.
 
 **Optional** The name of the repo containing the issue to autolabel. For example, `repo: action-autolabel`. By default, `repo` is the repo containing the workflow running `smockle/action-autolabel`.
 
+#### `issue_numbers`
+
+**Required** A space-delimited list of issue numbers indicating the issues to autolabel. For example, `issue_numbers: "1 2 3"`. By default, `issue_numbers` is not defined in most cases (and the action will fail when it is not provided as an input). An exception is when [`issues.opened`](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#issues) triggers the workflow; in this case, `issues_numbers` defaults to the newly-opened issue’s number.
+
 ### Environment Variables
 
 #### `GH_TOKEN`
@@ -53,6 +57,7 @@ jobs:
           limit_matches: false
           owner: smockle
           repo: action-autolabel
+          issue_numbers: "1"
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```

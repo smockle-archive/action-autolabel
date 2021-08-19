@@ -1,18 +1,19 @@
 import { Issue } from "../../lib/issue";
-import { clientMock } from "./clientMock";
+import { client, counter } from "./mocks";
 
 describe("Issue", () => {
   let issue: Issue;
 
-  beforeAll(async () => {
-    issue = new Issue(clientMock, {
+  beforeEach(async () => {
+    counter.reset();
+    issue = new Issue(client, {
       owner: "smockle",
       repo: "action-autolabel",
       issueNumber: 1,
     });
-    expect(clientMock.rest.issues.get.called).toEqual(0);
+    expect(counter.rest.issues.get).toEqual(0);
     await issue.fetch();
-    expect(clientMock.rest.issues.get.called).toEqual(1);
+    expect(counter.rest.issues.get).toEqual(1);
   });
 
   test(".body", () => {
@@ -31,7 +32,7 @@ describe("Issue", () => {
 
   test(".mentions, missing body", async () => {
     const { owner, repo, issueNumber } = issue;
-    const unfetchedIssue = new Issue(clientMock, { owner, repo, issueNumber });
+    const unfetchedIssue = new Issue(client, { owner, repo, issueNumber });
     expect(unfetchedIssue.mentions("4.1.1")).toEqual(false);
   });
 
@@ -43,15 +44,21 @@ describe("Issue", () => {
     expect(issue.hasLabel("A LABEL THAT DOES NOT EXIST")).toEqual(false);
   });
 
-  test(".addLabels()", () => {
-    expect(clientMock.rest.issues.addLabels.called).toEqual(0);
+  test(".addLabels(), labels provided", () => {
+    expect(counter.rest.issues.addLabels).toEqual(0);
     issue.addLabels(["WCAG 4.1.1"]);
-    expect(clientMock.rest.issues.addLabels.called).toEqual(1);
+    expect(counter.rest.issues.addLabels).toEqual(1);
+  });
+
+  test(".addLabels(), no labels provided", () => {
+    expect(counter.rest.issues.addLabels).toEqual(0);
+    issue.addLabels([]);
+    expect(counter.rest.issues.addLabels).toEqual(0);
   });
 
   test(".removeLabel()", () => {
-    expect(clientMock.rest.issues.removeLabel.called).toEqual(0);
+    expect(counter.rest.issues.removeLabel).toEqual(0);
     issue.removeLabel("WCAG 4.1.1");
-    expect(clientMock.rest.issues.removeLabel.called).toEqual(1);
+    expect(counter.rest.issues.removeLabel).toEqual(1);
   });
 });

@@ -20,5 +20,6 @@ jobs:
           limit_matches: false
           owner: smockle
           repo: action-autolabel
+          issue_numbers: "1"
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

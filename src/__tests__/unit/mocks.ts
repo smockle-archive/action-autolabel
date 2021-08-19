@@ -13,7 +13,7 @@ type GetIssueResponse = RestEndpointMethodTypes["issues"]["get"]["response"];
 
 export async function getIssueMock(): Promise<GetIssueResponse> {
   // Track the number of times 'getIssueMock' has been called.
-  getIssueMock.called++;
+  counter.rest.issues.get++;
   // Return mock data read from a file.
   const path: url.URL = new URL("./getIssueResponse.json", import.meta.url);
   const unparsedResponse = await readFile(path, "utf8");
@@ -22,7 +22,6 @@ export async function getIssueMock(): Promise<GetIssueResponse> {
 }
 getIssueMock.defaults = undefined as any;
 getIssueMock.endpoint = undefined as any;
-getIssueMock.called = 0;
 
 // POST /repos/{owner}/{repo}/issues/{issue_number}/labels
 
@@ -31,12 +30,11 @@ type AddLabelsToIssueResponse =
 
 export async function addLabelsToIssueMock(): Promise<AddLabelsToIssueResponse> {
   // Track the number of times 'addLabelsToIssueMock' has been called.
-  addLabelsToIssueMock.called++;
+  counter.rest.issues.addLabels++;
   return Promise.resolve({} as AddLabelsToIssueResponse);
 }
 addLabelsToIssueMock.defaults = undefined as any;
 addLabelsToIssueMock.endpoint = undefined as any;
-addLabelsToIssueMock.called = 0;
 
 // DELETE /repos/{owner}/{repo}/issues/{issue_number}/labels/{name}
 
@@ -45,16 +43,15 @@ type RemoveLabelFromIssueResponse =
 
 export async function removeLabelFromIssueMock(): Promise<RemoveLabelFromIssueResponse> {
   // Track the number of times 'removeLabelFromIssueMock' has been called.
-  removeLabelFromIssueMock.called++;
+  counter.rest.issues.removeLabel++;
   return Promise.resolve({} as RemoveLabelFromIssueResponse);
 }
 removeLabelFromIssueMock.defaults = undefined as any;
 removeLabelFromIssueMock.endpoint = undefined as any;
-removeLabelFromIssueMock.called = 0;
 
 // Client
 
-export const clientMock = {
+export const client = {
   rest: {
     issues: {
       get: getIssueMock,
@@ -62,12 +59,26 @@ export const clientMock = {
       removeLabel: removeLabelFromIssueMock,
     },
   },
-} as Client & {
-  rest: {
-    issues: {
-      get: { called: number };
-      addLabels: { called: number };
-      removeLabel: { called: number };
-    };
+} as Client;
+
+// Counter
+
+class Counter {
+  #initialCount = {
+    rest: {
+      issues: {
+        get: 0,
+        addLabels: 0,
+        removeLabel: 0,
+      },
+    },
   };
-};
+  // Deep clone the initial counts
+  // Use `rest` for parallelism with `client` keys; for example,
+  // `client.rest.issues.get`’s call count is `counter.rest.issues.get`.
+  rest = JSON.parse(JSON.stringify(this.#initialCount.rest));
+  reset() {
+    this.rest = JSON.parse(JSON.stringify(this.#initialCount.rest));
+  }
+}
+export const counter = new Counter();
