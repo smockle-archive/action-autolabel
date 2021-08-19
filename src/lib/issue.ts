@@ -56,6 +56,9 @@ export class Issue {
   }
 
   async addLabels(labels: string[]): Promise<void> {
+    if (labels.length === 0) {
+      return;
+    }
     await this.#client.rest.issues.addLabels({
       owner: this.owner,
       repo: this.repo,
