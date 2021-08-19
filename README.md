@@ -16,11 +16,11 @@ Label issues based on matched strings.
 
 #### `owner`
 
-**Required** The owner of the repo containing the issue to autolabel. This is a GitHub username if the repo is user-owned, or a GitHub org name if the repo is org-owned. For example, `owner: smockle`. By default, `owner` is the owner of the repo containing the workflow running `smockle/action-autolabel`.
+**Optional** The owner of the repo containing the issue to autolabel. This is a GitHub username if the repo is user-owned, or a GitHub org name if the repo is org-owned. For example, `owner: smockle`. By default, `owner` is the owner of the repo containing the workflow running `smockle/action-autolabel`.
 
 #### `repo`
 
-**Required** The name of the repo containing the issue to autolabel. For example, `repo: action-autolabel`. By default, `repo` is the repo containing the workflow running `smockle/action-autolabel`.
+**Optional** The name of the repo containing the issue to autolabel. For example, `repo: action-autolabel`. By default, `repo` is the repo containing the workflow running `smockle/action-autolabel`.
 
 ### Environment Variables
 
