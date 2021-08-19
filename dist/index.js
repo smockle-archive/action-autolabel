@@ -41,12 +41,34 @@ import { autolabel } from "./lib/autolabel";
         if (!repo) {
             throw new Error(`Failed to retrieve 'repo' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`);
         }
+        // Retrieve 'issue_numbers' from 'inputs' or from the `github` context.
+        /** A set of of issue numbers indicating the issues to autolabel. */
+        let issueNumbers = new Set();
+        // From 'inputs'
+        if (typeof core.getInput("issue_numbers") === "string") {
+            for (const issueNumber of core.getInput("issue_numbers").split(" ")) {
+                if (Number.isNaN(Number(issueNumber))) {
+                    issueNumbers.add(Number(issueNumber));
+                }
+            }
+        }
+        // From 'issues.opened' context
+        else if (github.context.eventName === "issues" &&
+            github.context.payload.action === "opened") {
+            const issueNumber = github.context.payload.issue?.number;
+            if (issueNumber) {
+                issueNumbers.add(issueNumber);
+            }
+        }
+        if (issueNumbers.size === 0) {
+            throw new Error(`Failed to retrieve 'issue_numbers' or to determine it from context ('eventName' and 'action' name in 'context': ${github.context.eventName}.${github.context.payload.action}).`);
+        }
         // Autolabel specified issue
         autolabel({
             token,
             owner,
             repo,
-            issueNumber: 1,
+            issueNumbers,
             searchObjects,
             limitMatches,
         });

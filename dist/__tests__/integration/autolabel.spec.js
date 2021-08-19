@@ -50,7 +50,7 @@ describe("Autolabel", () => {
             token,
             owner,
             repo,
-            issueNumber,
+            issueNumbers: new Set([issueNumber]),
             searchObjects,
             limitMatches: true,
         });
@@ -69,7 +69,7 @@ describe("Autolabel", () => {
             token,
             owner,
             repo,
-            issueNumber,
+            issueNumbers: new Set([issueNumber]),
             searchObjects,
             limitMatches: false,
         });

@@ -28,6 +28,9 @@ export class Issue {
         }))?.data;
     }
     async addLabels(labels) {
+        if (labels.length === 0) {
+            return;
+        }
         await this.#client.rest.issues.addLabels({
             owner: this.owner,
             repo: this.repo,
