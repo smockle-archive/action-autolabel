@@ -4,6 +4,7 @@ import type { RestEndpointMethodTypes } from "@octokit/rest";
 import fs from "fs";
 import url from "url";
 import { promisify } from "util";
+import v8 from "v8";
 const readFile = promisify(fs.readFile);
 const { URL } = url;
 
@@ -63,22 +64,31 @@ export const client = {
 
 // Counter
 
+type NumberMap<T extends object> = {
+  [K in keyof T]: T[K] extends object
+    ? "defaults" extends keyof T[K]
+      ? number
+      : NumberMap<T[K]>
+    : number;
+};
+
 class Counter {
   #initialCount = {
     rest: {
       issues: {
-        get: 0,
-        addLabels: 0,
-        removeLabel: 0,
+        listForRepo: 0,
       },
     },
-  };
+  } as NumberMap<Client>;
   // Deep clone the initial counts
   // Use `rest` for parallelism with `client` keys; for example,
   // `client.rest.issues.get`’s call count is `counter.rest.issues.get`.
-  rest = JSON.parse(JSON.stringify(this.#initialCount.rest));
+  rest: NumberMap<Client>["rest"] = v8.deserialize(
+    v8.serialize(this.#initialCount.rest)
+  );
   reset() {
-    this.rest = JSON.parse(JSON.stringify(this.#initialCount.rest));
+    this.rest = v8.deserialize(v8.serialize(this.#initialCount.rest));
   }
 }
+
 export const counter = new Counter();
