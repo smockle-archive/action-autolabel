@@ -1,6 +1,7 @@
 import fs from "fs";
 import url from "url";
 import { promisify } from "util";
+import v8 from "v8";
 const readFile = promisify(fs.readFile);
 const { URL } = url;
 export async function getIssueMock() {
@@ -38,7 +39,6 @@ export const client = {
         },
     },
 };
-// Counter
 class Counter {
     #initialCount = {
         rest: {
@@ -52,9 +52,9 @@ class Counter {
     // Deep clone the initial counts
     // Use `rest` for parallelism with `client` keys; for example,
     // `client.rest.issues.get`’s call count is `counter.rest.issues.get`.
-    rest = JSON.parse(JSON.stringify(this.#initialCount.rest));
+    rest = v8.deserialize(v8.serialize(this.#initialCount.rest));
     reset() {
-        this.rest = JSON.parse(JSON.stringify(this.#initialCount.rest));
+        this.rest = v8.deserialize(v8.serialize(this.#initialCount.rest));
     }
 }
 export const counter = new Counter();

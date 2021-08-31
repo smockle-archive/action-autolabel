@@ -17,7 +17,8 @@ import { autolabel } from "./lib/autolabel";
             searchObjects = JSON.parse(core.getInput("search_objects", { required: true }) || "[]");
         }
         catch (error) {
-            throw new Error(`Failed to retrieve input 'search_objects' with error: ${error.message}. Is the input a valid JSON string?`);
+            const originalErrorMessage = error instanceof Error ? error.message : error;
+            throw new Error(`Failed to retrieve input 'search_objects' with error: ${originalErrorMessage}. Is the input a valid JSON string?`);
         }
         // Retrieve 'limit_matches' from 'inputs'.
         /** If `true`, searching will stop when a match is found (so one label will be applied at most). If `false`, every search object will be checked (so many labels may be applied). Default: `false`. */
@@ -26,7 +27,8 @@ import { autolabel } from "./lib/autolabel";
             limitMatches = Boolean(core.getBooleanInput("limit_matches"));
         }
         catch (error) {
-            throw new Error(`Failed to retrieve input 'limit_matches' with error: ${error.message}. Is the input a boolean?`);
+            const originalErrorMessage = error instanceof Error ? error.message : error;
+            throw new Error(`Failed to retrieve input 'limit_matches' with error: ${originalErrorMessage}. Is the input a boolean?`);
         }
         // Retrieve 'owner' and 'repo' from 'inputs' or from the `github` context.
         // Ref: https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
@@ -42,7 +44,7 @@ import { autolabel } from "./lib/autolabel";
             throw new Error(`Failed to retrieve 'repo' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`);
         }
         // Retrieve 'issue_numbers' from 'inputs' or from the `github` context.
-        /** A set of of issue numbers indicating the issues to autolabel. */
+        /** A set of issue numbers indicating the issues to autolabel. */
         let issueNumbers = new Set();
         // From 'inputs'
         if (typeof core.getInput("issue_numbers") === "string") {
@@ -74,6 +76,9 @@ import { autolabel } from "./lib/autolabel";
         });
     }
     catch (error) {
-        core.setFailed(error.message);
+        const errorMessage = error instanceof Error
+            ? error.message
+            : `A top-level error occurred: ${error}`;
+        core.setFailed(errorMessage);
     }
 })();
