@@ -22,5 +22,5 @@ runs:
   using: "docker"
   image: "Dockerfile"
 branding:
-  icon: "bookmark"
+  icon: "tag"
   color: "blue"

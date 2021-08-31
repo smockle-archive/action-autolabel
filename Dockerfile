@@ -8,7 +8,7 @@ LABEL homepage="https://github.com/smockle/action-autolabel"
 
 LABEL com.github.actions.name="Autolabel"
 LABEL com.github.actions.description="Label issues based on matched strings."
-LABEL com.github.actions.icon="bookmark"
+LABEL com.github.actions.icon="tag"
 LABEL com.github.actions.color="blue"
 
 COPY . /action-autolabel
