@@ -23,8 +23,10 @@ import { autolabel } from "./lib/autolabel";
         core.getInput("search_objects", { required: true }) || "[]"
       );
     } catch (error) {
+      const originalErrorMessage =
+        error instanceof Error ? error.message : error;
       throw new Error(
-        `Failed to retrieve input 'search_objects' with error: ${error.message}. Is the input a valid JSON string?`
+        `Failed to retrieve input 'search_objects' with error: ${originalErrorMessage}. Is the input a valid JSON string?`
       );
     }
 
@@ -34,8 +36,10 @@ import { autolabel } from "./lib/autolabel";
     try {
       limitMatches = Boolean(core.getBooleanInput("limit_matches"));
     } catch (error) {
+      const originalErrorMessage =
+        error instanceof Error ? error.message : error;
       throw new Error(
-        `Failed to retrieve input 'limit_matches' with error: ${error.message}. Is the input a boolean?`
+        `Failed to retrieve input 'limit_matches' with error: ${originalErrorMessage}. Is the input a boolean?`
       );
     }
 
@@ -98,6 +102,10 @@ import { autolabel } from "./lib/autolabel";
       limitMatches,
     });
   } catch (error) {
-    core.setFailed(error.message);
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : `A top-level error occurred: ${error}`;
+    core.setFailed(errorMessage);
   }
 })();
