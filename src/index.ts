@@ -66,7 +66,7 @@ import { autolabel } from "./lib/autolabel";
     }
 
     // Retrieve 'issue_numbers' from 'inputs' or from the `github` context.
-    /** A set of of issue numbers indicating the issues to autolabel. */
+    /** A set of issue numbers indicating the issues to autolabel. */
     let issueNumbers: Set<number> = new Set();
     // From 'inputs'
     if (typeof core.getInput("issue_numbers") === "string") {
