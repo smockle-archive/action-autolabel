@@ -76,7 +76,9 @@ class Counter {
   #initialCount = {
     rest: {
       issues: {
-        listForRepo: 0,
+        get: 0,
+        addLabels: 0,
+        removeLabel: 0,
       },
     },
   } as NumberMap<Client>;
