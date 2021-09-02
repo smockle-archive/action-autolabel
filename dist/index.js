@@ -46,9 +46,10 @@ import { autolabel } from "./lib/autolabel";
         /** A set of issue numbers indicating the issues to autolabel. */
         let issueNumbers = new Set();
         // From 'inputs'
-        if (["number", "string"].includes(typeof core.getInput("issue_numbers"))) {
-            for (const issueNumber of String(core.getInput("issue_numbers")).split(" ")) {
-                if (Number.isNaN(Number(issueNumber))) {
+        core.debug(`'issue_numbers': ${core.getInput("issue_numbers")}, 'typeof': ${typeof core.getInput("issue_numbers")}, '=== string': ${typeof core.getInput("issue_numbers") === "string"}`);
+        if (typeof core.getInput("issue_numbers") === "string") {
+            for (const issueNumber of core.getInput("issue_numbers").split(" ")) {
+                if (!Number.isNaN(Number(issueNumber))) {
                     issueNumbers.add(Number(issueNumber));
                 }
             }
