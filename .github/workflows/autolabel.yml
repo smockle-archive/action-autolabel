@@ -14,12 +14,22 @@ jobs:
     name: WCAG Labeler
     runs-on: ubuntu-latest
     steps:
+      - id: filter_issues
+        uses: smockle/action-filter-issues@dist
+        with:
+          owner: smockle
+          repo: action-autolabel
+          included_labels: '["accessibility"]'
+          excluded_labels: '["WCAG 4.1.1", "WCAG 4.1.2"]'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - run: echo ${{ steps.filter_issues.outputs.issue_numbers }}
       - uses: smockle/action-autolabel@dist
         with:
           search_objects: '[{ "text": "4.1.1", "label": "WCAG 4.1.1" }, { "text": "4.1.2", "label": "4.1.2" }]'
           limit_matches: false
           owner: smockle
           repo: action-autolabel
-          issue_numbers: "1"
+          issue_numbers: ${{ steps.filter_issues.outputs.issue_numbers }}
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
