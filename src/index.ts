@@ -44,21 +44,18 @@ import { autolabel } from "./lib/autolabel";
     }
 
     // Retrieve 'owner' and 'repo' from 'inputs' or from the `github` context.
-    // Ref: https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
-    const repoContext: { owner: string; repo: string } | undefined =
-      github.context.payload.repository?.match(
-        /^(?<owner>.*)\/(?<repo>.*)$/
-      ).groups;
+    // Ref: https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#webhook-payload-object-common-properties
     /** The owner of the repo containing the issue to autolabel. This is a GitHub username if the repo is user-owned, or a GitHub org name if the repo is org-owned. */
     let owner: string | undefined =
-      core.getInput("owner") || repoContext?.owner;
+      core.getInput("owner") || github.context.payload.repository?.owner?.login;
     if (!owner) {
       throw new Error(
         `Failed to retrieve 'owner' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`
       );
     }
     /** The name of the repo containing the issue to autolabel. */
-    let repo: string | undefined = core.getInput("repo") || repoContext?.repo;
+    let repo: string | undefined =
+      core.getInput("repo") || github.context.payload.repository?.name;
     if (!repo) {
       throw new Error(
         `Failed to retrieve 'repo' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`
