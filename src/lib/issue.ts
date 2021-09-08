@@ -46,13 +46,18 @@ export class Issue {
   }
 
   async fetch(): Promise<void> {
-    this.#data = (
-      await this.#client.rest.issues.get({
-        owner: this.owner,
-        repo: this.repo,
-        issue_number: this.issueNumber,
-      })
-    )?.data;
+    try {
+      this.#data = (
+        await this.#client.rest.issues.get({
+          owner: this.owner,
+          repo: this.repo,
+          issue_number: this.issueNumber,
+        })
+      )?.data;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : error;
+      console.error(`Failed to fetch issue with error: ${errorMessage}`);
+    }
   }
 
   async addLabels(labels: string[]): Promise<void> {
