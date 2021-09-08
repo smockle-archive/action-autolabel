@@ -57,6 +57,7 @@ import { autolabel } from "./lib/autolabel";
         else if (github.context.eventName === "issues" &&
             github.context.payload.action === "opened") {
             const issueNumber = github.context.payload.issue?.number;
+            core.debug(`issueNumber: ${issueNumber}, typeof 'issueNumber': ${typeof issueNumber}`);
             if (issueNumber) {
                 issueNumbers.add(issueNumber);
             }

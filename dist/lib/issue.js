@@ -21,11 +21,17 @@ export class Issue {
         return Boolean(this.#data?.labels.some((x) => x === label || (typeof x !== "string" && x.name === label)));
     }
     async fetch() {
-        this.#data = (await this.#client.rest.issues.get({
-            owner: this.owner,
-            repo: this.repo,
-            issue_number: this.issueNumber,
-        }))?.data;
+        try {
+            this.#data = (await this.#client.rest.issues.get({
+                owner: this.owner,
+                repo: this.repo,
+                issue_number: this.issueNumber,
+            }))?.data;
+        }
+        catch (error) {
+            const errorMessage = error instanceof Error ? error.message : error;
+            console.error(`Failed to fetch issue with error: ${errorMessage}`);
+        }
     }
     async addLabels(labels) {
         if (labels.length === 0) {
