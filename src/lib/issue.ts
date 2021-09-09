@@ -56,7 +56,9 @@ export class Issue {
       )?.data;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : error;
-      console.error(`Failed to fetch issue with error: ${errorMessage}`);
+      console.error(
+        `Failed to fetch issue (${this.owner}/${this.repo}#${this.issueNumber}) with error: ${errorMessage}`
+      );
     }
   }
 
