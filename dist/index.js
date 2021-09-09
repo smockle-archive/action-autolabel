@@ -33,15 +33,12 @@ import { autolabel } from "./lib/autolabel";
         // Retrieve 'owner' and 'repo' from 'inputs' or from the `github` context.
         // Ref: https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#webhook-payload-object-common-properties
         /** The owner of the repo containing the issue to autolabel. This is a GitHub username if the repo is user-owned, or a GitHub org name if the repo is org-owned. */
-        core.debug(`github..eventName: ${github.context.eventName}, github...action: ${github.context.payload.action}, github...?.number: ${github.context.payload.issue?.number}`);
         let owner = core.getInput("owner") || github.context.payload.repository?.owner?.login;
-        core.debug(`owner: ${owner}`);
         if (!owner) {
             throw new Error(`Failed to retrieve 'owner' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`);
         }
         /** The name of the repo containing the issue to autolabel. */
         let repo = core.getInput("repo") || github.context.payload.repository?.name;
-        core.debug(`owner: ${repo}`);
         if (!repo) {
             throw new Error(`Failed to retrieve 'repo' or to determine it from context ('repository' in 'context': ${github.context.payload.repository}).`);
         }
@@ -61,7 +58,6 @@ import { autolabel } from "./lib/autolabel";
         else if (github.context.eventName === "issues" &&
             github.context.payload.action === "opened") {
             const issueNumber = github.context.payload.issue?.number;
-            core.debug(`issueNumber: ${issueNumber}, typeof 'issueNumber': ${typeof issueNumber}`);
             if (issueNumber) {
                 issueNumbers.add(issueNumber);
             }
@@ -70,7 +66,7 @@ import { autolabel } from "./lib/autolabel";
             throw new Error(`Failed to retrieve 'issue_numbers' or to determine it from context ('eventName' and 'action' name in 'context': ${github.context.eventName}.${github.context.payload.action}).`);
         }
         // Autolabel specified issue
-        autolabel({
+        await autolabel({
             token,
             owner,
             repo,
