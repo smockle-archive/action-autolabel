@@ -53,6 +53,6 @@
   "dependencies": {
     "@actions/core": "^1.5.0",
     "@actions/github": "^5.0.0",
-    "@octokit/rest": "^18.11.1"
+    "@octokit/rest": "^18.11.2"
   }
 }
