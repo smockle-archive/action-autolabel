@@ -16,7 +16,7 @@ inputs:
     description: "The name of the repo containing the issue to autolabel."
     required: false
   issue_numbers:
-    descriptionm: "A space-delimited list of issue numbers indicating the issues to autolabel."
+    description: "A space-delimited list of issue numbers indicating the issues to autolabel."
     required: false
 runs:
   using: "docker"
