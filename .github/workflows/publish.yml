@@ -25,6 +25,9 @@ jobs:
       - run: npm run test:integration
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
       - run: npm run package
       - uses: smockle/action-release-branch@main
         with:
