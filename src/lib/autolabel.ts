@@ -44,7 +44,7 @@ export async function autolabel({
     // Determine which labels to apply
     const labels: string[] = [];
     for (const { text, label } of searchObjects) {
-      if (issue.mentions(text)) {
+      if (issue.mentions(text) || false) {
         labels.push(label);
         if (limitMatches) {
           break;
