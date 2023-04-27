@@ -25,20 +25,10 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: npm i -g npm@7 --registry=https://registry.npmjs.org && npm --version
       - run: npm ci
-#       - run: npm run test:unit 
-#       - run: npm run test:integration
-#         env:
-#           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       - uses: codecov/codecov-action@v2
-#         with:
-#           token: ${{secrets.CODECOV_TOKEN}}
       - run: npm run package
-      - run: pwd
-      - run: ls -ltra
       - uses: smockle/action-release-branch@workspace
         with:
+          email: ${{ secrets.GH_EMAIL }}
+          username: ${{ secrets.GH_USERNAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           release_branch: "dist"
-        env:
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
-          GH_USERNAME: ${{ secrets.GH_USERNAME }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
