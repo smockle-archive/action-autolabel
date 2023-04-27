@@ -33,6 +33,8 @@ jobs:
         with:
           token: ${{secrets.CODECOV_TOKEN}}
       - run: npm run package
+      - run: pwd
+      - run: ls -ltra
       - uses: smockle/action-release-branch@main
         with:
           release_branch: "dist"
