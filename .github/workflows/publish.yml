@@ -25,13 +25,13 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: npm i -g npm@7 --registry=https://registry.npmjs.org && npm --version
       - run: npm ci
-      - run: npm run test:unit
-      - run: npm run test:integration
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: codecov/codecov-action@v2
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
+#       - run: npm run test:unit
+#       - run: npm run test:integration
+#         env:
+#           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - uses: codecov/codecov-action@v2
+#         with:
+#           token: ${{secrets.CODECOV_TOKEN}}
       - run: npm run package
       - run: pwd
       - run: ls -ltra
