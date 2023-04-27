@@ -2,7 +2,7 @@ name: Dependabot
 on: [pull_request_target]
 
 permissions:
-  issues: write
+  pull-requests: write
 
 jobs:
   dependabot:
@@ -13,6 +13,7 @@ jobs:
       - name: Add "@dependabot merge" comment
         uses: actions/github-script@v4
         with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             github.issues.createComment({
               owner: context.payload.repository.owner.login,
