@@ -1,9 +1,14 @@
 name: Publish
+
 on:
   workflow_run:
     workflows: ["Prepublish"]
     branches: ["main"]
     types: ["completed"]
+
+permissions:
+  contents: write
+  issues: read
 
 jobs:
   publish:
@@ -14,7 +19,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_TOKEN }}
       - uses: actions/setup-node@v2
         with:
           node-version: "14"
@@ -24,7 +28,7 @@ jobs:
       - run: npm run test:unit
       - run: npm run test:integration
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: codecov/codecov-action@v2
         with:
           token: ${{secrets.CODECOV_TOKEN}}
@@ -35,4 +39,4 @@ jobs:
         env:
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
